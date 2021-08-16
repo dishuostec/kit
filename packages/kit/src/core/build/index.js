@@ -123,15 +123,15 @@ async function build_client({
 	// This step is optional — Vite/Rollup will create the necessary chunks
 	// for everything regardless — but it means that entry chunks reflect
 	// their location in the source code, which is helpful for debugging
-	manifest.components.forEach((file) => {
-		const resolved = path.resolve(cwd, file);
-		const relative = path.relative(config.kit.files.routes, resolved);
-
-		const name = relative.startsWith('..')
-			? path.basename(file)
-			: posixify(path.join('pages', relative));
-		input[name] = resolved;
-	});
+	// manifest.components.forEach((file) => {
+	// 	const resolved = path.resolve(cwd, file);
+	// 	const relative = path.relative(config.kit.files.routes, resolved);
+	//
+	// 	const name = relative.startsWith('..')
+	// 		? path.basename(file)
+	// 		: posixify(path.join('pages', relative));
+	// 	input[name] = resolved;
+	// });
 
 	/** @type {import('vite').UserConfig} */
 	const vite_config = config.kit.vite();
