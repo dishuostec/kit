@@ -23,6 +23,7 @@ export default [
 			'app/stores': 'src/runtime/app/stores.js',
 			'app/paths': 'src/runtime/app/paths.js',
 			'app/env': 'src/runtime/app/env.js',
+			'app/routes': 'src/runtime/app/routes.js',
 			paths: 'src/runtime/paths.js',
 			env: 'src/runtime/env.js'
 		},
@@ -32,10 +33,11 @@ export default [
 			chunkFileNames: 'chunks/[name].js',
 			paths: {
 				ROOT: '../../generated/root.svelte',
-				MANIFEST: '../../generated/manifest.js'
+				MANIFEST: '../../generated/manifest.js',
+				ROUTES: '../../generated/routes.js'
 			}
 		},
-		external: ['svelte', 'svelte/store', 'ROOT', 'MANIFEST'],
+		external: ['svelte', 'svelte/store', 'ROOT', 'MANIFEST', 'ROUTES'],
 		plugins: [
 			resolve({
 				extensions: ['.mjs', '.js', '.ts']
