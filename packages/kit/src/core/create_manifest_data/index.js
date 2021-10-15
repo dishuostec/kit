@@ -20,6 +20,7 @@ import { posixify } from '../utils.js';
  *   is_index: boolean;
  *   is_page: boolean;
  *   route_suffix: string
+ *   id: string
  * }} Item
  */
 
@@ -58,13 +59,15 @@ export default function create_manifest_data({ config, output, cwd = process.cwd
 	 * @param {string[]} parent_params
 	 * @param {Array<string|undefined>} layout_stack // accumulated __layout.svelte components
 	 * @param {Array<string|undefined>} error_stack // accumulated __error.svelte components
+	 * @param {string} root
 	 */
-	function walk(dir, parent_segments, parent_params, layout_stack, error_stack) {
+	function walk(dir, parent_segments, parent_params, layout_stack, error_stack, root) {
 		/** @type {Item[]} */
 		let items = [];
 		fs.readdirSync(dir).forEach((basename) => {
 			const resolved = path.join(dir, basename);
 			const file = posixify(path.relative(cwd, resolved));
+			const relative = path.relative(root, resolved);
 			const is_dir = fs.statSync(resolved).isDirectory();
 
 			const ext = config.extensions.find((ext) => basename.endsWith(ext)) || path.extname(basename);
@@ -111,9 +114,15 @@ export default function create_manifest_data({ config, output, cwd = process.cwd
 			const is_index = is_dir ? false : basename.startsWith('index.');
 			const is_page = config.extensions.indexOf(ext) !== -1;
 			const route_suffix = basename.slice(basename.indexOf('.'), -ext.length);
+			const id =
+				posixify('/' + relative).replace(
+					is_page && is_index ? /\/index\.[^/]+$/ : /\.[^.]*$/,
+					''
+				) || '/';
 
 			items.push({
 				basename,
+				id,
 				ext,
 				parts,
 				file: posixify(file),
@@ -178,7 +187,8 @@ export default function create_manifest_data({ config, output, cwd = process.cwd
 					segments,
 					params,
 					layout_reset ? [layout_reset] : layout_stack.concat(layout),
-					layout_reset ? [error] : error_stack.concat(error)
+					layout_reset ? [error] : error_stack.concat(error),
+					root
 				);
 			} else if (item.is_page) {
 				components.push(item.file);
@@ -212,6 +222,7 @@ export default function create_manifest_data({ config, output, cwd = process.cwd
 					pattern,
 					params,
 					path,
+					id: item.id,
 					a: /** @type {string[]} */ (concatenated),
 					b: /** @type {string[]} */ (errors)
 				});
@@ -222,6 +233,7 @@ export default function create_manifest_data({ config, output, cwd = process.cwd
 					type: 'endpoint',
 					pattern,
 					file: item.file,
+					id: item.id,
 					params
 				});
 			}
@@ -235,7 +247,7 @@ export default function create_manifest_data({ config, output, cwd = process.cwd
 
 	components.push(layout, error);
 
-	walk(config.kit.files.routes, [], [], [layout], [error]);
+	walk(config.kit.files.routes, [], [], [layout], [error], config.kit.files.routes);
 
 	const assets = fs.existsSync(config.kit.files.assets)
 		? list_files({ config, dir: config.kit.files.assets, path: '' })

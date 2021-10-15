@@ -21,6 +21,8 @@ const s = JSON.stringify;
 
 /** @typedef {import('types/internal').ManifestData} ManifestData */
 
+/** @typedef {{ file: string, type: string, name: string, matcher: string, generator:string }} RouteData */
+
 /**
  * @param {{
  *   manifest_data: ManifestData;
@@ -34,6 +36,11 @@ export function create_app({ manifest_data, output, cwd = process.cwd() }) {
 
 	write_if_changed(`${dir}/manifest.js`, generate_client_manifest(manifest_data, base));
 	write_if_changed(`${dir}/root.svelte`, generate_app(manifest_data));
+
+	const routes_data = collect_routes(manifest_data);
+
+	write_if_changed(`${dir}/routes.js`, generate_routes(routes_data));
+	write_if_changed(`${dir}/routes.d.ts`, generate_routes_dts(routes_data));
 }
 
 /**
@@ -198,4 +205,90 @@ function generate_app(manifest_data) {
 			}
 		</style>
 	`);
+}
+
+/**
+ * @param {ManifestData} manifest_data
+ * @return RouteData[]
+ */
+function collect_routes(manifest_data) {
+	return manifest_data.routes.map((route) => {
+		const filepath = route.type === 'page' ? route.a[route.a.length - 1] : route.file;
+
+		const route_name =
+			route.id
+				.replace(/\[([a-zA-Z0-9_$]+)]/g, '$$$1')
+				.replace(/\[\.\.\.([a-zA-Z0-9_$]+)]/g, '$$$$$1')
+				.replace(/[^a-zA-Z0-9_$]/g, '_')
+				.replace(/_+$/, '') || '_index';
+
+		const params =
+			route.params.length > 0
+				? `{ ${route.params
+						.map((param) => {
+							return param.startsWith('...') ? `${param.slice(3)} = '.'` : `${param} = '.'`;
+						})
+						.join(',')} } = {}`
+				: '';
+
+		const factory =
+			route.params.length > 0
+				? '`' + route.id.replace(/\[(?:\.\.\.)?([a-zA-Z0-9_$]+)]/g, '${$1}') + '`'
+				: route.id.length
+				? `'${route.id}'`
+				: "'/'";
+
+		const generator = `(${params}) => base + ${factory}`;
+		const matcher = `(url) => ${route.pattern}.test(url)`;
+
+		return {
+			file: filepath,
+			type: route.type,
+			name: route_name,
+			matcher,
+			generator
+		};
+	});
+}
+
+/**
+ * @param {RouteData[]} routes
+ */
+function generate_routes(routes) {
+	const route_base = `
+import { base } from '$app/paths';
+`.trim();
+
+	return `${route_base}
+
+${routes
+	.map((route) => {
+		return `// ${route.file}
+export const route_${route.type}${route.name} = {
+	match: ${route.matcher},
+	create: ${route.generator}
+};`;
+	})
+	.join('\n\n')}`;
+}
+
+/**
+ * @param {RouteData[]} routes
+ */
+function generate_routes_dts(routes) {
+	return `declare module '$app/routes' {
+	interface Route {
+		match(url: string): boolean;
+		create(params?: any): string;
+	}
+
+${routes
+	.map(
+		(route) =>
+			`	// ${route.file}
+	export const route_${route.type}${route.name}: Route;`
+	)
+	.join('\n\n')}
+}
+`;
 }

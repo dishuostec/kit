@@ -53,6 +53,7 @@ test('creates routes', () => {
 			pattern: /^\/$/,
 			params: [],
 			path: '/',
+			id: '/',
 			a: [layout, index],
 			b: [error]
 		},
@@ -62,6 +63,7 @@ test('creates routes', () => {
 			pattern: /^\/about\/?$/,
 			params: [],
 			path: '/about',
+			id: '/about',
 			a: [layout, about],
 			b: [error]
 		},
@@ -70,6 +72,7 @@ test('creates routes', () => {
 			type: 'endpoint',
 			pattern: /^\/blog\.json$/,
 			file: 'samples/basic/blog/index.json.js',
+			id: '/blog/index.json',
 			params: []
 		},
 
@@ -78,6 +81,7 @@ test('creates routes', () => {
 			pattern: /^\/blog\/?$/,
 			params: [],
 			path: '/blog',
+			id: '/blog',
 			a: [layout, blog],
 			b: [error]
 		},
@@ -86,6 +90,7 @@ test('creates routes', () => {
 			type: 'endpoint',
 			pattern: /^\/blog\/([^/]+?)\.json$/,
 			file: 'samples/basic/blog/[slug].json.ts',
+			id: '/blog/[slug].json',
 			params: ['slug']
 		},
 
@@ -94,6 +99,7 @@ test('creates routes', () => {
 			pattern: /^\/blog\/([^/]+?)\/?$/,
 			params: ['slug'],
 			path: '',
+			id: '/blog/[slug]',
 			a: [layout, blog_$slug],
 			b: [error]
 		}
@@ -117,6 +123,7 @@ test('creates routes with layout', () => {
 			pattern: /^\/$/,
 			params: [],
 			path: '/',
+			id: '/',
 			a: [layout, index],
 			b: [error]
 		},
@@ -126,6 +133,7 @@ test('creates routes with layout', () => {
 			pattern: /^\/foo\/?$/,
 			params: [],
 			path: '/foo',
+			id: '/foo',
 			a: [layout, foo___layout, foo],
 			b: [error]
 		}
@@ -226,6 +234,7 @@ test('allows multiple slugs', () => {
 				type: 'endpoint',
 				pattern: /^\/([^/]+?)\.([^/]+?)$/,
 				file: 'samples/multiple-slugs/[file].[ext].js',
+				id: '/[file].[ext]',
 				params: ['file', 'ext']
 			}
 		]
@@ -245,6 +254,7 @@ test('ignores things that look like lockfiles', () => {
 		{
 			type: 'endpoint',
 			file: 'samples/lockfiles/foo.js',
+			id: '/foo',
 			params: [],
 			pattern: /^\/foo\/?$/
 		}
@@ -272,6 +282,7 @@ test('works with custom extensions', () => {
 			pattern: /^\/$/,
 			params: [],
 			path: '/',
+			id: '/',
 			a: [layout, index],
 			b: [error]
 		},
@@ -281,6 +292,7 @@ test('works with custom extensions', () => {
 			pattern: /^\/about\/?$/,
 			params: [],
 			path: '/about',
+			id: '/about',
 			a: [layout, about],
 			b: [error]
 		},
@@ -289,6 +301,7 @@ test('works with custom extensions', () => {
 			type: 'endpoint',
 			pattern: /^\/blog\.json$/,
 			file: 'samples/custom-extension/blog/index.json.js',
+			id: '/blog/index.json',
 			params: []
 		},
 
@@ -297,6 +310,7 @@ test('works with custom extensions', () => {
 			pattern: /^\/blog\/?$/,
 			params: [],
 			path: '/blog',
+			id: '/blog',
 			a: [layout, blog],
 			b: [error]
 		},
@@ -305,12 +319,14 @@ test('works with custom extensions', () => {
 			type: 'endpoint',
 			pattern: /^\/blog\/([^/]+?)\.json$/,
 			file: 'samples/custom-extension/blog/[slug].json.js',
+			id: '/blog/[slug].json',
 			params: ['slug']
 		},
 
 		{
 			type: 'page',
 			pattern: /^\/blog\/([^/]+?)\/?$/,
+			id: '/blog/[slug]',
 			params: ['slug'],
 			path: '',
 			a: [layout, blog_$slug],
@@ -345,6 +361,7 @@ test('includes nested error components', () => {
 			pattern: /^\/foo\/bar\/baz\/?$/,
 			params: [],
 			path: '/foo/bar/baz',
+			id: '/foo/bar/baz',
 			a: [
 				layout,
 				'samples/nested-errors/foo/__layout.svelte',
@@ -371,6 +388,7 @@ test('resets layout', () => {
 			pattern: /^\/$/,
 			params: [],
 			path: '/',
+			id: '/',
 			a: [layout, 'samples/layout-reset/index.svelte'],
 			b: [error]
 		},
@@ -379,6 +397,7 @@ test('resets layout', () => {
 			pattern: /^\/foo\/?$/,
 			params: [],
 			path: '/foo',
+			id: '/foo',
 			a: [
 				layout,
 				'samples/layout-reset/foo/__layout.svelte',
@@ -391,6 +410,7 @@ test('resets layout', () => {
 			pattern: /^\/foo\/bar\/?$/,
 			params: [],
 			path: '/foo/bar',
+			id: '/foo/bar',
 			a: [
 				'samples/layout-reset/foo/bar/__layout.reset.svelte',
 				'samples/layout-reset/foo/bar/index.svelte'
