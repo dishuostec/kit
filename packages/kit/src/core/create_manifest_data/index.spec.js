@@ -147,10 +147,7 @@ test('creates multiple routes', () => {
 		kit: {
 			files: {
 				assets: path.resolve(cwd, 'static'),
-				routes: [
-					path.resolve(cwd, 'samples/basic'),
-					path.resolve(cwd, 'samples/basic-layout')
-				]
+				routes: [path.resolve(cwd, 'samples/basic'), path.resolve(cwd, 'samples/basic-layout')]
 			},
 			appDir: '_app',
 			serviceWorker: {
@@ -176,7 +173,17 @@ test('creates multiple routes', () => {
 	const foo = 'samples/basic-layout/foo/index.svelte';
 
 	assert.equal(layout, __layout);
-	assert.equal(components, [layout, error, index, about, blog, blog_$slug, layout_index, foo___layout, foo]);
+	assert.equal(components, [
+		layout,
+		error,
+		index,
+		about,
+		blog,
+		blog_$slug,
+		layout_index,
+		foo___layout,
+		foo
+	]);
 
 	assert.equal(routes, [
 		{
@@ -244,7 +251,7 @@ test('creates multiple routes', () => {
 			a: [layout, layout_index],
 			b: [error]
 		},
-		
+
 		{
 			type: 'page',
 			pattern: /^\/foo\/?$/,

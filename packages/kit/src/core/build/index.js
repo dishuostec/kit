@@ -105,7 +105,8 @@ async function build_client({
 	create_app({
 		manifest_data: manifest,
 		output: build_dir,
-		cwd
+		cwd,
+		routes: config.kit.files.routes
 	});
 
 	copy_assets(build_dir);

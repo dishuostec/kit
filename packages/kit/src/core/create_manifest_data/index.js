@@ -115,7 +115,11 @@ export default function create_manifest_data({ config, output, cwd = process.cwd
 			const is_index = is_dir ? false : basename.startsWith('index.');
 			const is_page = config.extensions.indexOf(ext) !== -1;
 			const route_suffix = basename.slice(basename.indexOf('.'), -ext.length);
-			const id = posixify('/' + relative).replace(is_page && is_index ? /\/index\.[^/]+$/ : /\.[^.]*$/, '') || '/';
+			const id =
+				posixify('/' + relative).replace(
+					is_page && is_index ? /\/index\.[^/]+$/ : /\.[^.]*$/,
+					''
+				) || '/';
 
 			items.push({
 				basename,
@@ -238,26 +242,30 @@ export default function create_manifest_data({ config, output, cwd = process.cwd
 		});
 	}
 
-
 	/**
 	 * @param {string} file
 	 * @param {string[]} routes
 	 */
 	function find_file_in_routes(file, routes) {
-		return routes.reduce(/**
-		 * @param {string|undefined} found
-		 * @param {string} route
-		 */
-		(found, route) => {
-			if (found) {
-				return found;
-			}
-			return find_layout(file, path.relative(cwd, route));
-		}, undefined);
+		return routes.reduce(
+			/**
+			 * @param {string|undefined} found
+			 * @param {string} route
+			 */
+			(found, route) => {
+				if (found) {
+					return found;
+				}
+				return find_layout(file, path.relative(cwd, route));
+			},
+			undefined
+		);
 	}
 
-	const config_routes = Array.isArray(config.kit.files.routes) ? config.kit.files.routes : [config.kit.files.routes];
-	
+	const config_routes = Array.isArray(config.kit.files.routes)
+		? config.kit.files.routes
+		: [config.kit.files.routes];
+
 	const layout = find_file_in_routes('__layout', config_routes) || default_layout;
 	const error = find_file_in_routes('__error', config_routes) || default_error;
 
