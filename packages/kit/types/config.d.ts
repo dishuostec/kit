@@ -29,7 +29,7 @@ export interface PrerenderErrorHandler {
 
 export type PrerenderOnErrorValue = 'fail' | 'continue' | PrerenderErrorHandler;
 
-export interface Config {
+export interface Config<Validated = false> {
 	compilerOptions?: any;
 	extensions?: string[];
 	kit?: {
@@ -40,7 +40,7 @@ export interface Config {
 			assets?: string;
 			hooks?: string;
 			lib?: string;
-			routes?: string;
+			routes?: Validated extends false ? string | string[] : string[];
 			serviceWorker?: string;
 			template?: string;
 		};
@@ -76,4 +76,4 @@ export interface Config {
 	preprocess?: any;
 }
 
-export type ValidatedConfig = RecursiveRequired<Config>;
+export type ValidatedConfig = RecursiveRequired<Config<true>>;

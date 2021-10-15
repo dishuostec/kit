@@ -74,22 +74,28 @@ class Watcher extends EventEmitter {
 	}
 
 	async init_filewatcher() {
-		this.cheapwatch = new CheapWatch({
-			dir: this.config.kit.files.routes,
-			/** @type {({ path }: { path: string }) => boolean} */
-			filter: ({ path }) => path.split('/').every((part) => part[0] !== '_' || part[1] === '_')
-		});
+		this.cheapwatch = await Promise.all(this.config.kit.files.routes.map(async dir => {
+			const cheapwatch = new CheapWatch({
+				dir,
+				/** @type {({ path }: { path: string }) => boolean} */
+				filter: ({ path }) => path.split('/').every((part) => part[0] !== '_' || part[1] === '_')
+			});
 
-		await this.cheapwatch.init();
+			await cheapwatch.init();
 
-		// not sure why TS doesn't understand that CheapWatch extends EventEmitter
-		this.cheapwatch.on('+', ({ isNew }) => {
-			if (isNew) this.update();
-		});
+			// not sure why TS doesn't understand that CheapWatch extends EventEmitter
+			cheapwatch.on('+', ({ isNew }) => {
+				if (isNew) {
+					this.update();
+				}
+			});
 
-		this.cheapwatch.on('-', () => {
-			this.update();
-		});
+			cheapwatch.on('-', () => {
+				this.update();
+			});
+
+			return cheapwatch;
+		}));
 	}
 
 	async init_server() {
@@ -218,7 +224,7 @@ class Watcher extends EventEmitter {
 		this.closed = true;
 
 		this.vite.close();
-		this.cheapwatch.close();
+		this.cheapwatch.forEach(cheapwatch => cheapwatch.close());
 	}
 }
 

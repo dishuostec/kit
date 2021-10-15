@@ -60,7 +60,7 @@ const options = object(
 				assets: string('static'),
 				hooks: string('src/hooks'),
 				lib: string('src/lib'),
-				routes: string('src/routes'),
+				routes: string_or_array_of_strings('src/routes'),
 				serviceWorker: string('src/service-worker'),
 				template: string('src/app.html')
 			}),
@@ -258,6 +258,33 @@ function string(fallback, allow_empty = true) {
 		}
 
 		return input;
+	});
+}
+
+/**
+ * @param {string | null} fallback
+ * @param {boolean} allow_empty
+ * @returns {Validator}
+ */
+function string_or_array_of_strings(fallback, allow_empty = true) {
+	return validate(fallback, (input, keypath) => {
+		if (typeof input === 'string') {
+			if (!allow_empty && input === '') {
+				throw new Error(`${keypath} cannot be empty`);
+			}
+
+			return input;
+		}
+
+		if (Array.isArray(input)) {
+			if (!input.every((glob) => typeof glob === 'string')) {
+				throw new Error(`${keypath} must be an array of strings`);
+			}
+
+			return input;
+		}
+
+		throw new Error(`${keypath} must be string or an array of strings`);
 	});
 }
 

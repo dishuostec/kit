@@ -181,6 +181,7 @@ export interface PageData {
 	path: string;
 	a: string[];
 	b: string[];
+	id: string;
 }
 
 export interface EndpointData {
@@ -188,6 +189,7 @@ export interface EndpointData {
 	pattern: RegExp;
 	params: string[];
 	file: string;
+	id: string;
 }
 
 export type RouteData = PageData | EndpointData;
