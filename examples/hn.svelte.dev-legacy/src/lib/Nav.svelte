@@ -11,6 +11,7 @@
 		<li><a sveltekit:prefetch href="/show/1" class:selected={section === 'show'}>show</a></li>
 		<li><a sveltekit:prefetch href="/ask/1" class:selected={section === 'ask'}>ask</a></li>
 		<li><a sveltekit:prefetch href="/jobs/1" class:selected={section === 'jobs'}>jobs</a></li>
+		<li><a rel="external" href="/tests" class:selected={section === 'test'}>tests</a></li>
 
 		<li class="about"><a sveltekit:prefetch href="/about" class:selected={section === 'about'}>about</a></li>
 	</ul>

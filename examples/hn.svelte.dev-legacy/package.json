@@ -8,9 +8,13 @@
 		"build": "svelte-kit build --verbose",
 		"preview": "svelte-kit preview"
 	},
+	"dependencies": {
+		"core-js-pure": "^3.19.1"
+	},
 	"devDependencies": {
 		"@sveltejs/adapter-netlify": "workspace:*",
 		"@sveltejs/kit": "workspace:*",
+		"@types/qunit": "^2.11.2",
 		"svelte": "^3.44.0"
 	}
 }
