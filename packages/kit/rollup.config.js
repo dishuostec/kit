@@ -10,6 +10,7 @@ const external = [].concat(
 	Object.keys(pkg.dependencies || {}),
 	Object.keys(pkg.peerDependencies || {}),
 	Object.keys(process.binding('natives')),
+	'@dishuostec/vite-plugin-legacy',
 	'typescript',
 	'svelte2tsx'
 );

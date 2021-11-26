@@ -13,6 +13,10 @@ import { create_app } from '../create_app/index.js';
 import create_manifest_data from '../create_manifest_data/index.js';
 import { SVELTE_KIT } from '../constants.js';
 import { copy_assets, posixify, resolve_entry } from '../utils.js';
+import viteLegacyPlugin from '@dishuostec/vite-plugin-legacy';
+
+// @ts-ignore
+const { polyfillId, polyfillsAssetNameLegacy } = viteLegacyPlugin;
 
 /** @param {any} value */
 const s = (value) => JSON.stringify(value);
@@ -167,6 +171,7 @@ async function build_client({
 			}
 		},
 		plugins: [
+			config.kit.legacy && viteLegacyPlugin(config.kit.legacy),
 			svelte({
 				extensions: config.extensions,
 				emitCss: !config.kit.amp,
@@ -174,7 +179,7 @@ async function build_client({
 					hydratable: !!config.kit.hydrate
 				}
 			})
-		]
+		].filter(Boolean)
 	});
 
 	print_config_conflicts(conflicts, 'kit.vite.', 'build_client');
@@ -287,6 +292,36 @@ async function build_server(
 
 	find_deps(client_entry_file, entry_js, entry_css);
 
+	let modern_polyfill_asset;
+	let legacy_polyfill_asset;
+	/** @type {Record<string, string>} */
+	const legacy_lookup = {};
+
+	if (config.kit.legacy) {
+		Object.values(client_manifest).forEach((item) => {
+			if ((!item.isEntry && !item.isDynamicEntry) || !item.src) {
+				return;
+			}
+
+			if (item.src === polyfillId) {
+				if (item.file.includes(polyfillsAssetNameLegacy)) {
+					legacy_polyfill_asset = prefix + item.file;
+				} else {
+					modern_polyfill_asset = prefix + item.file;
+				}
+				return;
+			}
+
+			if (item.src.includes('-legacy')) {
+				const find = item.src.replace('-legacy', '');
+				const origin = client_manifest[find];
+				if (origin) {
+					legacy_lookup[prefix + origin.file] = prefix + item.file;
+				}
+			}
+		});
+	}
+
 	// prettier-ignore
 	fs.writeFileSync(
 		app_file,
@@ -298,8 +333,8 @@ async function build_server(
 			import * as user_hooks from ${s(app_relative(hooks_file))};
 
 			const template = ({ head, body }) => ${s(fs.readFileSync(config.kit.files.template, 'utf-8'))
-				.replace('%svelte.head%', '" + head + "')
-				.replace('%svelte.body%', '" + body + "')};
+			.replace('%svelte.head%', '" + head + "')
+			.replace('%svelte.body%', '" + body + "')};
 
 			let options = null;
 
@@ -338,12 +373,17 @@ async function build_server(
 					prerender: ${config.kit.prerender.enabled},
 					read: settings.read,
 					root,
-					service_worker: ${service_worker_entry_file ? "'/service-worker.js'" : 'null'},
+					service_worker: ${service_worker_entry_file ? '\'/service-worker.js\'' : 'null'},
 					router: ${s(config.kit.router)},
 					ssr: ${s(config.kit.ssr)},
 					target: ${s(config.kit.target)},
 					template,
-					trailing_slash: ${s(config.kit.trailingSlash)}
+					trailing_slash: ${s(config.kit.trailingSlash)},
+					legacy: ${config.kit.legacy ? `{
+						modern_polyfill_asset: ${modern_polyfill_asset ? 'assets + ' + s(modern_polyfill_asset) : 'null'},
+						legacy_polyfill_asset: ${legacy_polyfill_asset ? 'assets + ' + s(legacy_polyfill_asset) : 'null'},
+						get_entry: entry => assets + legacy_lookup[entry.slice(assets.length)],
+					}` : s(false)}
 				};
 			}
 
@@ -411,6 +451,8 @@ async function build_server(
 			};
 
 			const metadata_lookup = ${s(metadata_lookup)};
+			
+			const legacy_lookup = ${s(legacy_lookup)};
 
 			async function load_component(file) {
 				const { entry, css, js, styles } = metadata_lookup[file];
