@@ -56,6 +56,23 @@ importers:
       '@sveltejs/kit': link:../../packages/kit
       svelte: 3.44.0
 
+  examples/hn.svelte.dev-legacy:
+    specifiers:
+      '@dishuostec/sveltekit-legacy-ie11': ^0.0.1
+      '@sveltejs/adapter-node': workspace:*
+      '@sveltejs/kit': workspace:*
+      '@types/qunit': ^2.11.2
+      core-js-pure: ^3.19.1
+      svelte: ^3.44.0
+    dependencies:
+      core-js-pure: 3.19.1
+    devDependencies:
+      '@dishuostec/sveltekit-legacy-ie11': 0.0.1_rollup@2.58.3
+      '@sveltejs/adapter-node': link:../../packages/adapter-node
+      '@sveltejs/kit': link:../../packages/kit
+      '@types/qunit': 2.11.2
+      svelte: 3.44.0
+
   packages/adapter-auto:
     specifiers:
       '@sveltejs/adapter-cloudflare': workspace:*
@@ -1597,6 +1614,16 @@ packages:
       prettier: 1.19.1
     dev: true
 
+  /@dishuostec/sveltekit-legacy-ie11/0.0.1_rollup@2.58.3:
+    resolution: {integrity: sha512-8Nzo5jfQglpVJzoF06HQnBrJKKkLV+WMsYYgoz1atq8FJB97C7Zzy9PIMZdQw4AK/qja/GZ5sdJIoqgeNYImwQ==}
+    dependencies:
+      '@rollup/plugin-node-resolve': 13.0.6_rollup@2.58.3
+      custom-event-polyfill: 1.0.7
+      whatwg-fetch: 3.6.2
+    transitivePeerDependencies:
+      - rollup
+    dev: true
+
   /@dishuostec/vite-plugin-legacy/1.6.4-alpha.1_vite@2.6.13:
     resolution: {integrity: sha512-+52T8N9zp0NxXsxC3P08txgqK/aFAKZiRFQ0+4YyKRasSMiMabo7dIVkxsSKIU51Teq379NT5TtaGqiHdeT05A==}
     engines: {node: '>=12.0.0'}
@@ -2014,6 +2041,10 @@ packages:
 
   /@types/qs/6.9.7:
     resolution: {integrity: sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==}
+    dev: true
+
+  /@types/qunit/2.11.2:
+    resolution: {integrity: sha512-Bt0fz9l8sWxqP+cjoqWQyNVyOPPK+7GPhKIKLLTi7llR0FV+pyd50FXTXafZeZnsFVUgXw4pdupydz75E6vxjQ==}
     dev: true
 
   /@types/range-parser/1.2.4:
@@ -2667,6 +2698,11 @@ packages:
       semver: 7.0.0
     dev: false
 
+  /core-js-pure/3.19.1:
+    resolution: {integrity: sha512-Q0Knr8Es84vtv62ei6/6jXH/7izKmOrtrxH9WJTHLCMAVeU+8TF8z8Nr08CsH4Ot0oJKzBzJJL9SJBYIv7WlfQ==}
+    requiresBuild: true
+    dev: false
+
   /core-js/3.19.1:
     resolution: {integrity: sha512-Tnc7E9iKd/b/ff7GFbhwPVzJzPztGrChB8X8GLqoYGdEOG8IpLnK1xPyo3ZoO3HsK6TodJS58VGPOxA+hLHQMg==}
     requiresBuild: true
@@ -2709,6 +2745,10 @@ packages:
       csv-parse: 4.16.3
       csv-stringify: 5.6.5
       stream-transform: 2.1.3
+    dev: true
+
+  /custom-event-polyfill/1.0.7:
+    resolution: {integrity: sha512-TDDkd5DkaZxZFM8p+1I3yAlvM3rSr1wbrOliG4yJiwinMZN8z/iGL7BTlDkrJcYTmgUSb4ywVCc3ZaUtOtC76w==}
     dev: true
 
   /data-uri-to-buffer/3.0.1:
@@ -5696,6 +5736,10 @@ packages:
 
   /webidl-conversions/3.0.1:
     resolution: {integrity: sha1-JFNCdeKnvGvnvIZhHMFq4KVlSHE=}
+    dev: true
+
+  /whatwg-fetch/3.6.2:
+    resolution: {integrity: sha1-3O0k838mJO0CgXJdUdDi4/5nf4w=}
     dev: true
 
   /whatwg-url/5.0.0:

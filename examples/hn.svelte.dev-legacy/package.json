@@ -1,18 +1,21 @@
 {
-	"name": "hn.svelte.dev",
+	"name": "hn.svelte.dev-legacy",
 	"version": "1.0.0",
 	"private": true,
 	"type": "module",
 	"scripts": {
 		"dev": "svelte-kit dev",
 		"build": "svelte-kit build --verbose",
+		"build-legacy-defaults": "DEBUG=vite:legacy LEGACY=defaults pnpm build",
+		"build-legacy-no-ie": "DEBUG=vite:legacy LEGACY=no-ie pnpm build",
 		"preview": "svelte-kit preview"
 	},
 	"dependencies": {
 		"core-js-pure": "^3.19.1"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-netlify": "workspace:*",
+		"@dishuostec/sveltekit-legacy-ie11": "^0.0.1",
+		"@sveltejs/adapter-node": "workspace:*",
 		"@sveltejs/kit": "workspace:*",
 		"@types/qunit": "^2.11.2",
 		"svelte": "^3.44.0"
