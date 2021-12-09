@@ -230,7 +230,7 @@ export async function load_node({
 								const headers = {};
 								for (const [key, value] of response.headers) {
 									if (key === 'set-cookie') {
-										set_cookie_headers = set_cookie_headers.concat(value);
+										set_cookie_headers = set_cookie_headers.concat(splitCookiesString(value));
 									} else if (key !== 'etag') {
 										headers[key] = value;
 									}
@@ -303,4 +303,77 @@ export async function load_node({
 		set_cookie_headers,
 		uses_credentials
 	};
+}
+
+function splitCookiesString(cookiesString) {
+	if (Array.isArray(cookiesString)) {
+		return cookiesString;
+	}
+	if (typeof cookiesString !== 'string') {
+		return [];
+	}
+
+	const cookiesStrings = [];
+	let pos = 0;
+	let start;
+	let ch;
+	let lastComma;
+	let nextStart;
+	let cookiesSeparatorFound;
+
+	function skipWhitespace() {
+		while (pos < cookiesString.length && /\s/.test(cookiesString.charAt(pos))) {
+			pos += 1;
+		}
+		return pos < cookiesString.length;
+	}
+
+	function notSpecialChar() {
+		ch = cookiesString.charAt(pos);
+
+		return ch !== '=' && ch !== ';' && ch !== ',';
+	}
+
+	while (pos < cookiesString.length) {
+		start = pos;
+		cookiesSeparatorFound = false;
+
+		while (skipWhitespace()) {
+			ch = cookiesString.charAt(pos);
+			if (ch === ',') {
+				// ',' is a cookie separator if we have later first '=', not ';' or ','
+				lastComma = pos;
+				pos += 1;
+
+				skipWhitespace();
+				nextStart = pos;
+
+				while (pos < cookiesString.length && notSpecialChar()) {
+					pos += 1;
+				}
+
+				// currently special character
+				if (pos < cookiesString.length && cookiesString.charAt(pos) === '=') {
+					// we found cookies separator
+					cookiesSeparatorFound = true;
+					// pos is inside the next cookie, so back up and return it.
+					pos = nextStart;
+					cookiesStrings.push(cookiesString.substring(start, lastComma));
+					start = pos;
+				} else {
+					// in param ',' or param separator ';',
+					// we continue from that comma
+					pos = lastComma + 1;
+				}
+			} else {
+				pos += 1;
+			}
+		}
+
+		if (!cookiesSeparatorFound || pos >= cookiesString.length) {
+			cookiesStrings.push(cookiesString.substring(start, cookiesString.length));
+		}
+	}
+
+	return cookiesStrings;
 }
