@@ -1,5 +1,5 @@
 <script context="module">
-	/** @type {import('@sveltejs/kit').Load} */
+	/** @type {import('@dishuostec/kit').Load} */
 	export async function load({ page, fetch }) {
 		const res = await fetch('/caching/private/uses-fetch.json', {
 			credentials: /** @type {RequestCredentials} */ (page.query.get('credentials'))

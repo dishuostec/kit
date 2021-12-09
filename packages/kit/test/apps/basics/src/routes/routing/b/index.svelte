@@ -1,5 +1,5 @@
 <script context="module">
-	/** @type {import('@sveltejs/kit').Load} */
+	/** @type {import('@dishuostec/kit').Load} */
 	export async function load({ fetch }) {
 		const letter = await fetch('/routing/b.json').then(r => r.json());
 		return { props: { letter } };

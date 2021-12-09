@@ -9,7 +9,7 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-node": "workspace:*",
-		"@sveltejs/kit": "workspace:*",
+		"@dishuostec/kit": "workspace:*",
 		"svelte": "^3.43.0"
 	},
 	"type": "module"

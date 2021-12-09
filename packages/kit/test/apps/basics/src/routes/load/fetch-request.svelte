@@ -1,7 +1,7 @@
 <script context="module">
 	import { browser } from '$app/env';
 
-	/** @type {import('@sveltejs/kit').Load} */
+	/** @type {import('@dishuostec/kit').Load} */
 	export async function load({ fetch }) {
 		const url = '/load/fetch-request.json';
 

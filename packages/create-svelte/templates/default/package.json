@@ -8,7 +8,7 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "next",
-		"@sveltejs/kit": "next",
+		"@dishuostec/kit": "*",
 		"svelte": "^3.44.0",
 		"svelte-preprocess": "^4.9.8",
 		"typescript": "^4.4.3"

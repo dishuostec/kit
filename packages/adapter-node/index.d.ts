@@ -1,4 +1,4 @@
-import { Adapter } from '@sveltejs/kit';
+import { Adapter } from '@dishuostec/kit';
 import { BuildOptions } from 'esbuild';
 
 interface AdapterOptions {

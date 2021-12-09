@@ -24,7 +24,7 @@
 		"test": "uvu test test.js"
 	},
 	"devDependencies": {
-		"@sveltejs/kit": "workspace:*",
+		"@dishuostec/kit": "workspace:*",
 		"playwright-chromium": "^1.15.2",
 		"port-authority": "^1.1.2",
 		"sirv": "^1.0.17",

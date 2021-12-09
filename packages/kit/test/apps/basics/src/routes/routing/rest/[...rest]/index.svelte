@@ -1,5 +1,5 @@
 <script context="module">
-	/** @type {import('@sveltejs/kit').Load} */
+	/** @type {import('@dishuostec/kit').Load} */
 	export function load({ page }) {
 		const { rest } = page.params;
 		return { props: { rest } };

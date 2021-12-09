@@ -7,7 +7,7 @@
 		"start": "../../../../kit/svelte-kit.js start"
 	},
 	"devDependencies": {
-		"@sveltejs/kit": "next",
+		"@dishuostec/kit": "workspace:*",
 		"svelte": "^3.43.0"
 	},
 	"type": "module"

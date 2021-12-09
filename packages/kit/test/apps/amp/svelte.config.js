@@ -1,4 +1,4 @@
-/** @type {import('@sveltejs/kit').Config} */
+/** @type {import('@dishuostec/kit').Config} */
 const config = {
 	kit: {
 		amp: true

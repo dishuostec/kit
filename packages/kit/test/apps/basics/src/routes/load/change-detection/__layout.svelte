@@ -1,7 +1,7 @@
 <script context="module">
 	let count = 0;
 
-	/** @type {import('@sveltejs/kit').Load} */
+	/** @type {import('@dishuostec/kit').Load} */
 	export async function load({ fetch }) {
 		const res = await fetch('/load/change-detection/data.json');
 		const { type } = await res.json();

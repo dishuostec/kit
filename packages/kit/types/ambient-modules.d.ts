@@ -82,7 +82,7 @@ declare module '$app/paths' {
 
 declare module '$app/stores' {
 	import { Readable, Writable } from 'svelte/store';
-	import { Page } from '@sveltejs/kit';
+	import { Page } from '@dishuostec/kit';
 	type Navigating = { from: Page; to: Page };
 
 	/**
@@ -132,8 +132,8 @@ declare module '$service-worker' {
 	export const timestamp: number;
 }
 
-declare module '@sveltejs/kit/hooks' {
-	import { Handle } from '@sveltejs/kit';
+declare module '@dishuostec/kit/hooks' {
+	import { Handle } from '@dishuostec/kit';
 
 	/**
 	 * Utility function that allows chaining `handle` functions in a
@@ -144,9 +144,9 @@ declare module '@sveltejs/kit/hooks' {
 	export function sequence(...handlers: Handle[]): Handle;
 }
 
-declare module '@sveltejs/kit/node' {
+declare module '@dishuostec/kit/node' {
 	import { IncomingMessage } from 'http';
-	import { RawBody } from '@sveltejs/kit';
+	import { RawBody } from '@dishuostec/kit';
 
 	export interface GetRawBody {
 		(request: IncomingMessage): Promise<RawBody>;
@@ -154,11 +154,11 @@ declare module '@sveltejs/kit/node' {
 	export const getRawBody: GetRawBody;
 }
 
-declare module '@sveltejs/kit/ssr' {
-	import { IncomingRequest, Response } from '@sveltejs/kit';
+declare module '@dishuostec/kit/ssr' {
+	import { IncomingRequest, Response } from '@dishuostec/kit';
 	// TODO import from public types, right now its heavily coupled with internal
-	type Options = import('@sveltejs/kit/types/internal').SSRRenderOptions;
-	type State = import('@sveltejs/kit/types/internal').SSRRenderState;
+	type Options = import('@dishuostec/kit/types/internal').SSRRenderOptions;
+	type State = import('@dishuostec/kit/types/internal').SSRRenderState;
 
 	export interface Respond {
 		(incoming: IncomingRequest, options: Options, state?: State): Promise<Response>;
@@ -166,7 +166,7 @@ declare module '@sveltejs/kit/ssr' {
 	export const respond: Respond;
 }
 
-declare module '@sveltejs/kit/install-fetch' {
+declare module '@dishuostec/kit/install-fetch' {
 	import fetch, { Headers, Request, Response } from 'node-fetch';
 
 	export { fetch, Headers, Request, Response };

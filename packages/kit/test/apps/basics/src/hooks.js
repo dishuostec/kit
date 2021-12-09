@@ -1,7 +1,7 @@
 import { sequence } from '../../../../src/runtime/hooks';
 import cookie from 'cookie';
 
-/** @type {import('@sveltejs/kit').GetSession} */
+/** @type {import('@dishuostec/kit').GetSession} */
 export function getSession(request) {
 	return request.locals;
 }
@@ -29,7 +29,7 @@ export const handle = sequence(
 	}
 );
 
-/** @type {import('@sveltejs/kit').ExternalFetch} */
+/** @type {import('@dishuostec/kit').ExternalFetch} */
 export async function externalFetch(request) {
 	let newRequest = request;
 	if (request.url.endsWith('/server-fetch-request.json')) {

@@ -1,4 +1,4 @@
-/** @type {import('@sveltejs/kit').RequestHandler} */
+/** @type {import('@dishuostec/kit').RequestHandler} */
 export const get = () => {
 	const body = '<foo />';
 	return {

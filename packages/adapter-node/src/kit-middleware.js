@@ -1,4 +1,4 @@
-import { getRawBody } from '@sveltejs/kit/node';
+import { getRawBody } from '@dishuostec/kit/node';
 
 /**
  * @return {import('polka').Middleware}

@@ -1,5 +1,5 @@
 <script context="module">
-	/** @type {import('@sveltejs/kit').Load} */
+	/** @type {import('@dishuostec/kit').Load} */
 	export async function load({ page, fetch }) {
 		const url = `http://localhost:${page.query.get('port')}/server-fetch-request.json`;
 

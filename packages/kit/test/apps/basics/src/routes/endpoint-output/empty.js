@@ -1,7 +1,7 @@
-/** @type {import('@sveltejs/kit').RequestHandler} */
+/** @type {import('@dishuostec/kit').RequestHandler} */
 export function get() {
 	return {};
 }
 
-/** @type {import('@sveltejs/kit').RequestHandler} */
+/** @type {import('@dishuostec/kit').RequestHandler} */
 export function del() {}

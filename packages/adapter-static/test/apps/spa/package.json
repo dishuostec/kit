@@ -8,7 +8,7 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-node": "next",
-		"@sveltejs/kit": "next",
+		"@dishuostec/kit": "workspace:*",
 		"svelte": "^3.43.0"
 	},
 	"type": "module"

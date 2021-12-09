@@ -22,7 +22,7 @@
 		"index.d.ts"
 	],
 	"devDependencies": {
-		"@sveltejs/kit": "workspace:*",
+		"@dishuostec/kit": "workspace:*",
 		"rollup": "^2.58.0",
 		"sirv": "^1.0.17"
 	},

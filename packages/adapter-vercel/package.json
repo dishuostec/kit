@@ -29,6 +29,6 @@
 		"esbuild": "^0.13.4"
 	},
 	"devDependencies": {
-		"@sveltejs/kit": "workspace:*"
+		"@dishuostec/kit": "workspace:*"
 	}
 }

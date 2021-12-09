@@ -1,7 +1,7 @@
 <script context="module">
 	import { base, assets } from '$app/paths';
 
-	/** @type {import('@sveltejs/kit').Load} */
+	/** @type {import('@dishuostec/kit').Load} */
 	export async function load() {
 		return {
 			props: {

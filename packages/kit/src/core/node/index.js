@@ -1,4 +1,4 @@
-/** @type {import('@sveltejs/kit/node').GetRawBody} */
+/** @type {import('@dishuostec/kit/node').GetRawBody} */
 export function getRawBody(req) {
 	return new Promise((fulfil, reject) => {
 		const h = req.headers;

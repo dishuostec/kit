@@ -13,7 +13,7 @@
 		"prompts": "^2.4.2"
 	},
 	"devDependencies": {
-		"@sveltejs/kit": "workspace:*",
+		"@dishuostec/kit": "workspace:*",
 		"@types/gitignore-parser": "^0.0.0",
 		"@types/prettier": "^2.4.1",
 		"@types/prompts": "^2.0.14",

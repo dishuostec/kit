@@ -1,7 +1,7 @@
 {
 	"name": "kit",
 	"version": "0.0.1",
-	"description": "monorepo for @sveltejs/kit and friends",
+	"description": "monorepo for @dishuostec/kit and friends",
 	"private": true,
 	"scripts": {
 		"build": "pnpm build --filter=\"@sveltejs/*\" --filter=\"create-svelte\"",

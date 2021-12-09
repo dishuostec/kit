@@ -10,7 +10,7 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-netlify": "workspace:*",
-		"@sveltejs/kit": "workspace:*",
+		"@dishuostec/kit": "workspace:*",
 		"svelte": "^3.44.0"
 	}
 }

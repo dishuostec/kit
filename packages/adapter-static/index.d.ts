@@ -1,4 +1,4 @@
-import { Adapter } from '@sveltejs/kit';
+import { Adapter } from '@dishuostec/kit';
 
 interface AdapterOptions {
 	pages?: string;

@@ -1,4 +1,4 @@
-/** @type {import('@sveltejs/kit').RequestHandler} */
+/** @type {import('@dishuostec/kit').RequestHandler} */
 export function del(req) {
 	return {
 		status: 200,
